@@ -1,5 +1,16 @@
 import React from 'react'
 
+function shuffleArray(array) {
+  let i = array.length - 1;
+  for (; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
+
 export default class Game extends React.Component {
   constructor(props) {
     super(props)
@@ -61,22 +72,23 @@ export default class Game extends React.Component {
     }
   }
 
-  shuffleDeck(deck) {
-      for (var i = deck.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var temp = deck[i];
-          deck[i] = deck[j];
-          deck[j] = temp;
-      }
+  componentWillMount() {
+    this.setState({deck: shuffleArray(this.state.deck) })
   }
 
   render() {
-    const shuffledCards = shuffle
-    const cards = this.state.deck.map(card =>
+    const deck = this.state.deck.map(card =>
        JSON.stringify(card)
     )
+    const dealerCards = [deck[1], deck[3]]
+    const playerCards = [deck[0], deck[2]]
+
     return(
-      <h3>{cards}</h3>
+      <div>
+        <h3>{deck}</h3>
+        <DealerCards deck={deck} cards={dealerCards} />
+        <PlayerCards deck={deck} cards={playerCards} />
+      </div>
     )
   }
 }

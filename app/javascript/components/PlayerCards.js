@@ -9,9 +9,13 @@ export default class PlayerCards extends React.Component {
   }
 
   render() {
+    const playerCards = this.state.cards.map(card =>
+      JSON.stringify(card)
+    )
+    
     return(
       <div>
-        <h1>{this.state.cards}</h1>
+        <h1>{playerCards}</h1>
       </div>
     )
   }

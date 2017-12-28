@@ -73,47 +73,40 @@ export default class Game extends React.Component {
       playerCards: [],
       dealerCards: []
     }
-    this.dealPlayerCard = this.dealPlayerCard.bind(this)
-    this.dealDealerCard = this.dealDealerCard.bind(this)
 
+    // this.dealPlayerCard = this.dealPlayerCard.bind(this)
+    this.state.deck = shuffleArray(this.state.deck)
+    this.state.playerCards = this.state.playerCards.concat(this.state.deck[0])
+    this.state.playerCards = this.state.playerCards.concat(this.state.deck[2])
+    this.state.dealerCards = this.state.dealerCards.concat(this.state.deck[1])
+    this.state.dealerCards = this.state.dealerCards.concat(this.state.deck[3])
+    this.state.deck = this.state.deck.slice(4)
   }
 
-  dealPlayerCard() {
-    let playerCard = this.state.deck[0]
-    this.setState({playerCards: this.state.playerCards.concat(playerCard)})
-    this.setState({deck: this.state.deck.slice(1)})
-  }
+  // dealPlayerCard() {
+  //   let playerCard = this.state.deck[0]
+  //   this.setState({playerCards: this.state.playerCards.concat(playerCard)})
+  //   this.setState({deck: this.state.deck.slice(1)})
+  // }
 
-  dealDealerCard() {
-    let dealerCard = this.state.deck[0]
-    this.setState({dealerCards: this.state.dealerCards.concat(dealerCard)})
-    this.setState({deck: this.state.deck.slice(1)})
-  }
+  // dealDealerCard() {
+  //   let dealerCard = this.state.deck[0]
+  //   this.setState({dealerCards: this.state.dealerCards.concat(dealerCard)})
+  // }
 
-  componentWillMount() {
-    this.setState({
-      deck: shuffleArray(this.state.deck),
-    })
-    this.dealPlayerCard()
-    this.dealDealerCard()
-  }
 
   render() {
     const deck = this.state.deck.map(card =>
        JSON.stringify(card)
     )
-    const playerCards = this.state.playerCards.map(card =>
-      JSON.stringify(card)
-    )
     const dealerCards = this.state.dealerCards.map(card =>
       JSON.stringify(card)
     )
+    console.log(this.state)
 
     return(
       <div>
-        <h3>{this.state.deck.length}</h3>
-        <h4>{playerCards}</h4>
-        <h4>{dealerCards}</h4>
+        <PlayerCards deck={this.state.deck} cards={this.state.playerCards} />
       </div>
     )
   }

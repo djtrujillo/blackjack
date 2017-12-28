@@ -1,5 +1,6 @@
 import React from 'react'
 import PlayerCards from './PlayerCards'
+import DealerCards from './DealerCards'
 
 function shuffleArray(array) {
   let i = array.length - 1;
@@ -106,7 +107,9 @@ export default class Game extends React.Component {
 
     return(
       <div>
+        <DealerCards deck={this.state.deck} cards={this.state.dealerCards} />
         <PlayerCards deck={this.state.deck} cards={this.state.playerCards} />
+        <hitButton game={this.state} />
       </div>
     )
   }

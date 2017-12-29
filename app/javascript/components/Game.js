@@ -1,6 +1,8 @@
 import React from 'react'
 import PlayerCards from './PlayerCards'
 import DealerCards from './DealerCards'
+import HitButton from './HitButton'
+import DealButton from './DealButton'
 
 function shuffleArray(array) {
   let i = array.length - 1;
@@ -11,6 +13,14 @@ function shuffleArray(array) {
     array[j] = temp;
   }
   return array;
+}
+
+function sumCards(array) {
+  var total = 0
+  for (var i = 0; i < array.length; i++) {
+    total = total + array[i].value
+  }
+  return total
 }
 
 export default class Game extends React.Component {
@@ -75,25 +85,39 @@ export default class Game extends React.Component {
       dealerCards: []
     }
 
-    // this.dealPlayerCard = this.dealPlayerCard.bind(this)
+    this.handleHit = this.handleHit.bind(this)
+    this.handleDeal = this.handleDeal.bind(this)
     this.state.deck = shuffleArray(this.state.deck)
-    this.state.playerCards = this.state.playerCards.concat(this.state.deck[0])
-    this.state.playerCards = this.state.playerCards.concat(this.state.deck[2])
-    this.state.dealerCards = this.state.dealerCards.concat(this.state.deck[1])
-    this.state.dealerCards = this.state.dealerCards.concat(this.state.deck[3])
-    this.state.deck = this.state.deck.slice(4)
   }
 
-  // dealPlayerCard() {
-  //   let playerCard = this.state.deck[0]
-  //   this.setState({playerCards: this.state.playerCards.concat(playerCard)})
-  //   this.setState({deck: this.state.deck.slice(1)})
-  // }
 
-  // dealDealerCard() {
-  //   let dealerCard = this.state.deck[0]
-  //   this.setState({dealerCards: this.state.dealerCards.concat(dealerCard)})
-  // }
+  handleHit() {
+    if (sumCards(this.state.playerCards) < 21 ) {
+      this.setState({
+        playerCards: this.state.playerCards.concat(this.state.deck[0]),
+        deck: this.state.deck.slice(1)
+      }, function() {
+        if (sumCards(this.state.playerCards) > 21 ) {
+          alert("You Busted")
+        }
+      })
+    }
+  }
+
+  handleDeal() {
+    let deck = this.state.deck
+    let playerCards = this.state.playerCards
+    let dealerCards = this.state.dealerCards
+    playerCards.push(deck[0])
+    playerCards.push(deck[2])
+    dealerCards.push(deck[1])
+    dealerCards.push(deck[3])
+    this.setState({
+      deck: this.state.deck.slice(4),
+      dealerCards: dealerCards,
+      playerCards: playerCards,
+    })
+  }
 
 
   render() {
@@ -103,13 +127,14 @@ export default class Game extends React.Component {
     const dealerCards = this.state.dealerCards.map(card =>
       JSON.stringify(card)
     )
-    console.log(this.state)
 
     return(
       <div>
-        <DealerCards deck={this.state.deck} cards={this.state.dealerCards} />
-        <PlayerCards deck={this.state.deck} cards={this.state.playerCards} />
-        <hitButton game={this.state} />
+        <h1>{deck}</h1>
+        <DealerCards cards={this.state.dealerCards} />
+        <PlayerCards cards={this.state.playerCards} />
+        <HitButton onClick={this.handleHit} />
+        <DealButton onClick={this.handleDeal} />
       </div>
     )
   }

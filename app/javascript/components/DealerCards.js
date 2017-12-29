@@ -3,13 +3,9 @@ import Game from './Game'
 
 
 export default class DealerCards extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {cards: [this.props.cards[0], this.props.cards[1]]}
-  }
 
   render() {
-    const dealerCards = this.state.cards.map(card =>
+    const dealerCards = this.props.cards.map(card =>
       JSON.stringify(card)
     )
 

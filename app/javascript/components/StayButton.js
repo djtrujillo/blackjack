@@ -5,7 +5,7 @@ export default class StayButton extends React.Component {
 
   render() {
     return(
-      <div>
+      <div className="stay-button">
         <button onClick={this.props.onClick}>Stay</button>
       </div>
     )

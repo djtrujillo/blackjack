@@ -10,6 +10,8 @@
     "react-dom": "^16.2.0"
   },
   "devDependencies": {
+    "postcss-loader": "^2.0.9",
+    "postcss-smart-import": "^0.7.6",
     "webpack-dev-server": "^2.9.7"
   }
 }

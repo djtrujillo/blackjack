@@ -12,15 +12,12 @@ export default class DealerCards extends React.Component {
   }
 
   render() {
-    // const dealerCards = this.props.cards.map(card =>
-    //   JSON.stringify(card)
-    // )
-
     return(
       <div>
-        <h1>Dealer's Cards</h1>
-        {this.props.cards.map(card => this.renderImage(card.image_path))}
-
+  
+        <div className="dealer-cards">
+          {this.props.cards.map(card => this.renderImage(card.image_path))}
+        </div>
       </div>
     )
   }

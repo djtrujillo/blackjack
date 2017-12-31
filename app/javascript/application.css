@@ -1,0 +1,47 @@
+body {
+  background-image: url("./images/blackjack-table.jpg");
+  /*background-color: lightblue;*/
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  color: yellow;
+}
+
+h2 {
+  color: red;
+  display: flex;
+  justify-content: center;
+}
+
+h3 {
+  color: red;
+  display: flex;
+  justify-content: center;
+}
+
+.deal-button  {
+  display: flex;
+  justify-content: center;
+}
+.stay-button  {
+  display: flex;
+  justify-content: center;
+}
+.hit-button  {
+  display: flex;
+  justify-content: center;
+}
+
+.player-cards {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.dealer-cards {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}

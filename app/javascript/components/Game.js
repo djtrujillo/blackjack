@@ -306,13 +306,20 @@ export default class Game extends React.Component {
 
     return(
       <div>
-        <DealerCards cards={this.state.dealerCards} />
-        <h3>DealerTotal: {sumCards(this.state.dealerCards)}</h3>
-        <PlayerCards cards={this.state.playerCards} />
-        <h3>PlayerTotal: {sumCards(this.state.playerCards)}</h3>
-        <HitButton onClick={this.handleHit} />
-        <StayButton onClick={this.handleStay} />
-        <DealButton onClick={this.handleDeal} />
+        <h1 className="title">BlackJack!!</h1>
+        <div className="dealer">
+          <h2>Dealer's Cards</h2>
+          <DealerCards cards={this.state.dealerCards} />
+          <h3>DealerTotal: {sumCards(this.state.dealerCards)}</h3>
+        </div>
+        <div className="player" >
+          <h2>Player's Cards</h2>
+          <PlayerCards cards={this.state.playerCards} />
+          <h3>PlayerTotal: {sumCards(this.state.playerCards)}</h3>
+          <HitButton onClick={this.handleHit} />
+          <StayButton onClick={this.handleStay} />
+          <DealButton onClick={this.handleDeal} />
+        </div>
       </div>
     )
   }

@@ -5,7 +5,7 @@ import Game from './Game'
 export default class PlayerCards extends React.Component {
   renderImage(imageUrl) {
     return (
-      <div>
+      <div key={imageUrl}>
         <img src={imageUrl} />
       </div>
     )
@@ -15,7 +15,7 @@ export default class PlayerCards extends React.Component {
 
     return(
       <div>
-  
+
         <div className="player-cards">
           {this.props.cards.map(card => this.renderImage(card.image_path))}
         </div>

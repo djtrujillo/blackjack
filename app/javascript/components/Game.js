@@ -58,42 +58,6 @@ import queenspades from '../images/s12'
 import kingspades from '../images/s13'
 
 
-function shuffleArray(array) {
-  let i = array.length - 1;
-  for (; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-  return array;
-}
-
-function sumCards(array) {
-  var total = 0
-  for (var i = 0; i < array.length; i++) {
-    total = total + array[i].value
-  }
-  if (testForAce(array) && total > 21) {
-    total -= 10
-  }
-  return total
-}
-
-function testForAce(hand) {
-  let array = []
-  hand.forEach(function(card) {
-    if (card.name === "A") {
-      array.push("true")
-    }
-  })
-  if (array.length > 0) {
-    return true
-  } else {
-    return false
-  }
-}
-
 const initialState =
 {deck:
   [
@@ -151,79 +115,111 @@ const initialState =
     {name:"2", suit:"diamond", value:2, image_path: twodiamonds},
   ],
   playerCards: [],
-  dealerCards: []
+  dealerCards: [],
 }
 
-  // {deck:
-  //   [
-  //     {name:"A", suit:"spade", value:11, image_path:"../images/s01"},
-  //     {name:"A", suit:"club", value:11, image_path:"../images/aceclubs"},
-  //     {name:"A", suit:"heart", value:11, image_path:"../images/h01"},
-  //     {name:"A", suit:"diamond", value:11, image_path:"../images/d01"},
-  //     {name:"K", suit:"spade", value:10, image_path:"../images/s13"},
-  //     {name:"K", suit:"club", value:10, image_path:"../images/c13"},
-  //     {name:"K", suit:"heart", value:10, image_path:"../images/h13"},
-  //     {name:"K", suit:"diamond", value:10, image_path:"../images/d13"},
-  //     {name:"Q", suit:"spade", value:10, image_path:"../images/s12"},
-  //     {name:"Q", suit:"club", value:10, image_path:"../images/c12"},
-  //     {name:"Q", suit:"heart", value:10, image_path:"../images/h12"},
-  //     {name:"Q", suit:"diamond", value:10, image_path:"../images/d12"},
-  //     {name:"J", suit:"spade", value:10, image_path:"../images/s11"},
-  //     {name:"J", suit:"club", value:10, image_path:"../images/c11"},
-  //     {name:"J", suit:"heart", value:10, image_path:"../images/h11"},
-  //     {name:"J", suit:"diamond", value:10, image_path:"../images/d11"},
-  //     {name:"10", suit:"spade", value:10, image_path:"../images/s10"},
-  //     {name:"10", suit:"club", value:10, image_path:"../images/c10"},
-  //     {name:"10", suit:"heart", value:10, image_path:"../images/h10"},
-  //     {name:"10", suit:"diamond", value:10, image_path:"../images/d10"},
-  //     {name:"9", suit:"spade", value:9, image_path:"../images/s09"},
-  //     {name:"9", suit:"club", value:9, image_path:"../images/c09"},
-  //     {name:"9", suit:"heart", value:9, image_path:"../images/h09"},
-  //     {name:"9", suit:"diamond", value:9, image_path:"../images/d09"},
-  //     {name:"8", suit:"spade", value:8, image_path:"../images/s08"},
-  //     {name:"8", suit:"club", value:8, image_path:"../images/c08"},
-  //     {name:"8", suit:"heart", value:8, image_path:"../images/h08"},
-  //     {name:"8", suit:"diamond", value:8, image_path:"../images/d08"},
-  //     {name:"7", suit:"spade", value:7, image_path:"../images/s07"},
-  //     {name:"7", suit:"club", value:7, image_path:"../images/c07"},
-  //     {name:"7", suit:"heart", value:7, image_path:"../images/h07"},
-  //     {name:"7", suit:"diamond", value:7, image_path:"../images/d07"},
-  //     {name:"6", suit:"spade", value:6, image_path:"../images/s06"},
-  //     {name:"6", suit:"club", value:6, image_path:"../images/c06"},
-  //     {name:"6", suit:"heart", value:6, image_path:"../images/h06"},
-  //     {name:"6", suit:"diamond", value:6, image_path:"../images/d06"},
-  //     {name:"5", suit:"spade", value:5, image_path:"../images/s05"},
-  //     {name:"5", suit:"club", value:5, image_path:"../images/c05"},
-  //     {name:"5", suit:"heart", value:5, image_path:"../images/h05"},
-  //     {name:"5", suit:"diamond", value:5, image_path:"../images/d05"},
-  //     {name:"4", suit:"spade", value:4, image_path:"../images/s04"},
-  //     {name:"4", suit:"club", value:4, image_path:"../images/c04"},
-  //     {name:"4", suit:"heart", value:4, image_path:"../images/h04"},
-  //     {name:"4", suit:"diamond", value:4, image_path:"../images/d04"},
-  //     {name:"3", suit:"spade", value:3, image_path:"../images/s03"},
-  //     {name:"3", suit:"club", value:3, image_path:"../images/c03"},
-  //     {name:"3", suit:"heart", value:3, image_path:"../images/h03"},
-  //     {name:"3", suit:"diamond", value:3, image_path:"../images/d03"},
-  //     {name:"2", suit:"spade", value:2, image_path:"../images/s02"},
-  //     {name:"2", suit:"club", value:2, image_path:"../images/c02"},
-  //     {name:"2", suit:"heart", value:2, image_path:"../images/h02"},
-  //     {name:"2", suit:"diamond", value:2, image_path:"../images/d02"},
-  //   ],
-  //   playerCards: [],
-  //   dealerCards: []
-  // }
+function shuffleArray(array) {
+  let i = array.length - 1;
+  for (; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
 
+function sumCards(array) {
+  var total = 0
+  for (var i = 0; i < array.length; i++) {
+    total = total + array[i].value
+  }
+  let numberOfAces = numberAces(array)
+  while (numberOfAces > 0 && total > 21) {
+    numberOfAces -= 1
+    total -= 10
+  }
+return total
+}
+
+function numberAces(hand) {
+  let array = []
+  hand.forEach(function(card) {
+    if (card.name === "A") {
+      array.push("true")
+    }
+  })
+  return array.length
+}
+
+
+function dealPlayerCard(state, props) {
+  return {
+    playerCards: state.playerCards.concat(state.deck[0]),
+    deck: state.deck.slice(1)
+  }
+}
+
+function dealDealerCard(state, props) {
+  return {
+    dealerCards: state.dealerCards.concat(state.deck[0]),
+    deck: state.deck.slice(1)
+  }
+}
+
+function calculateTotals(state, props) {
+  return {
+    playerTotal: sumCards(state.playerCards),
+    dealerTotal: sumCards(state.dealerCards)
+  }
+}
+
+function endGameSequence(state) {
+  if (state.playerTotal > 21) {
+    alert("Dealer Wins : You Busted")
+  } else if (state.dealerTotal > 21) {
+    alert("You Win! : Dealer Busted")
+  } else if (state.dealerTotal > state.playerTotal) {
+    alert(`Dealer Wins: ${state.dealerTotal} to ${state.playerTotal}`)
+  } else {
+    alert(`You Win! : ${state.playerTotal} to ${state.dealerTotal}`)
+  }
+}
+
+function testForBlackJack(state) {
+  if (state.playerTotal === 21) {
+    alert("BlackJack!!")
+  } else if (state.dealerTotal === 21) {
+    alert("Dealer BlackJack")
+  } else {
+  }
+}
 
 export default class Game extends React.Component {
   constructor(props) {
     super(props)
     this.state = initialState
-
     this.handleHit = this.handleHit.bind(this)
     this.handleDeal = this.handleDeal.bind(this)
     this.handleStay = this.handleStay.bind(this)
-    this.dealDealerCards = this.dealDealerCards.bind(this)
     this.state.deck = shuffleArray(this.state.deck)
+  }
+
+  endGameSequence() {
+    if (this.state.playerTotal > 21) {
+      alert("Dealer Wins : You Busted")
+    } else if (this.state.dealerTotal > 21) {
+      alert("You Win! : Dealer Busted")
+    } else if (this.state.dealerTotal > this.state.playerTotal) {
+      alert(`Dealer Wins: ${this.state.dealerTotal} to ${this.state.playerTotal}`)
+    } else {
+      alert(`You Win! : ${this.state.playerTotal} to ${this.state.dealerTotal}`)
+    }
+    this.setState({
+      discardPile: this.state.playerCards.concat(this.state.dealerCards),
+      playerCards: [],
+      dealerCards: []
+    })
   }
 
   refreshState() {
@@ -235,87 +231,50 @@ export default class Game extends React.Component {
   }
 
   handleHit() {
-    if (sumCards(this.state.playerCards) < 21 ) {
-      this.setState({
-        playerCards: this.state.playerCards.concat(this.state.deck[0]),
-        deck: this.state.deck.slice(1)
-      }, function() {
-        if (sumCards(this.state.playerCards) > 21 ) {
-          alert("You Busted")
-          this.refreshState()
-        }
-      })
-    }
-  }
-
-  handleDeal() {
-    let deck = shuffleArray(initialState.deck)
-    let playerCards = []
-    let dealerCards = []
-    playerCards.push(deck[0])
-    playerCards.push(deck[2])
-    dealerCards.push(deck[1])
-    dealerCards.push(deck[3])
-    this.setState({
-      deck: deck.slice(4),
-      dealerCards: dealerCards,
-      playerCards: playerCards,
-    }, function() {
-    })
-  }
-
-  dealDealerCards() {
-    let dealerCards = this.state.dealerCards
-
-    dealerCards.push(this.state.deck[0])
-    this.setState({
-      deck: this.state.deck.slice(1),
-      dealerCards: dealerCards
-    }, function() {
-      if (sumCards(this.state.dealerCards) < 17) {
-        this.dealDealerCards()
+    this.setState( dealPlayerCard)
+    this.setState( calculateTotals, function() {
+      if (this.state.playerTotal > 21) {
+        this.endGameSequence()
       }
     })
   }
 
-  handleStay() {
-    if (sumCards(this.state.dealerCards) < 17) {
-      this.dealDealerCards()
-    }
-    this.endGameSequence()
+  handleDeal() {
+    this.setState( dealPlayerCard)
+    this.setState( dealDealerCard)
+    this.setState( dealPlayerCard)
+    this.setState( dealDealerCard)
+    this.setState( calculateTotals, function() {
+      testForBlackJack(this.state)
+    })
   }
 
-  endGameSequence() {
-    if (sumCards(this.state.dealerCards) > 21) {
-      alert("Dealer Busted")
-    } else if (sumCards(this.state.dealerCards) > sumCards(this.state.playerCards)) {
-      alert("Dealer Wins")
-    } else {
-      alert("You Win!")
-    }
+  handleStay() {
+    this.setState( calculateTotals, function() {
+      if (this.state.dealerTotal < 17) {
+        this.setState( dealDealerCard)
+        this.handleStay()
+      } else {
+        this.endGameSequence()
+      }
+    })
   }
 
   render() {
-    const deck = this.state.deck.map(card =>
-       JSON.stringify(card)
-    )
-
-    // const dealerCards = this.state.dealerCards.map(card =>
-    //   JSON.stringify(card)
-    // )
 
     return(
       <div>
+
         <h1 className="title">BlackJack!!</h1>
         <div className="dealer">
           <h2>Dealer's Cards</h2>
           <DealerCards cards={this.state.dealerCards} />
-          <h3>DealerTotal: {sumCards(this.state.dealerCards)}</h3>
+          <h3>DealerTotal: {this.state.dealerTotal}</h3>
         </div>
         <div className="player" >
           <h2>Player's Cards</h2>
           <PlayerCards cards={this.state.playerCards} />
-          <h3>PlayerTotal: {sumCards(this.state.playerCards)}</h3>
+          <h3>PlayerTotal: {this.state.playerTotal}</h3>
           <HitButton onClick={this.handleHit} />
           <StayButton onClick={this.handleStay} />
           <DealButton onClick={this.handleDeal} />

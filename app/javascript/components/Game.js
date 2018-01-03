@@ -58,42 +58,6 @@ import queenspades from '../images/s12'
 import kingspades from '../images/s13'
 
 
-function shuffleArray(array) {
-  let i = array.length - 1;
-  for (; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  }
-  return array;
-}
-
-function sumCards(array) {
-  var total = 0
-  for (var i = 0; i < array.length; i++) {
-    total = total + array[i].value
-  }
-  if (testForAce(array) && total > 21) {
-    total -= 10
-  }
-  return total
-}
-
-function testForAce(hand) {
-  let array = []
-  hand.forEach(function(card) {
-    if (card.name === "A") {
-      array.push("true")
-    }
-  })
-  if (array.length > 0) {
-    return true
-  } else {
-    return false
-  }
-}
-
 const initialState =
 {deck:
   [
@@ -152,8 +116,42 @@ const initialState =
   ],
   playerCards: [],
   dealerCards: [],
-
 }
+
+function shuffleArray(array) {
+  let i = array.length - 1;
+  for (; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
+
+function sumCards(array) {
+  var total = 0
+  for (var i = 0; i < array.length; i++) {
+    total = total + array[i].value
+  }
+  let numberOfAces = numberAces(array)
+  while (numberOfAces > 0 && total > 21) {
+    numberOfAces -= 1
+    total -= 10
+  }
+return total
+}
+
+function numberAces(hand) {
+  let array = []
+  hand.forEach(function(card) {
+    if (card.name === "A") {
+      array.push("true")
+    }
+  })
+  return array.length
+}
+
 
 function dealPlayerCard(state, props) {
   return {
@@ -176,19 +174,52 @@ function calculateTotals(state, props) {
   }
 }
 
+function endGameSequence(state) {
+  if (state.playerTotal > 21) {
+    alert("Dealer Wins : You Busted")
+  } else if (state.dealerTotal > 21) {
+    alert("You Win! : Dealer Busted")
+  } else if (state.dealerTotal > state.playerTotal) {
+    alert(`Dealer Wins: ${state.dealerTotal} to ${state.playerTotal}`)
+  } else {
+    alert(`You Win! : ${state.playerTotal} to ${state.dealerTotal}`)
+  }
+}
 
-
+function testForBlackJack(state) {
+  if (state.playerTotal === 21) {
+    alert("BlackJack!!")
+  } else if (state.dealerTotal === 21) {
+    alert("Dealer BlackJack")
+  } else {
+  }
+}
 
 export default class Game extends React.Component {
   constructor(props) {
     super(props)
     this.state = initialState
-
     this.handleHit = this.handleHit.bind(this)
     this.handleDeal = this.handleDeal.bind(this)
     this.handleStay = this.handleStay.bind(this)
-    this.dealDealerCards = this.dealDealerCards.bind(this)
     this.state.deck = shuffleArray(this.state.deck)
+  }
+
+  endGameSequence() {
+    if (this.state.playerTotal > 21) {
+      alert("Dealer Wins : You Busted")
+    } else if (this.state.dealerTotal > 21) {
+      alert("You Win! : Dealer Busted")
+    } else if (this.state.dealerTotal > this.state.playerTotal) {
+      alert(`Dealer Wins: ${this.state.dealerTotal} to ${this.state.playerTotal}`)
+    } else {
+      alert(`You Win! : ${this.state.playerTotal} to ${this.state.dealerTotal}`)
+    }
+    this.setState({
+      discardPile: this.state.playerCards.concat(this.state.dealerCards),
+      playerCards: [],
+      dealerCards: []
+    })
   }
 
   refreshState() {
@@ -201,92 +232,39 @@ export default class Game extends React.Component {
 
   handleHit() {
     this.setState( dealPlayerCard)
-    this.setState( calculateTotals)
+    this.setState( calculateTotals, function() {
+      if (this.state.playerTotal > 21) {
+        this.endGameSequence()
+      }
+    })
   }
-
-  // handleHit() {
-
-    // if (sumCards(this.state.playerCards) < 21 ) {
-    //   this.setState({
-    //     playerCards: this.state.playerCards.concat(this.state.deck[0]),
-    //     deck: this.state.deck.slice(1)
-    //   }, function() {
-    //     if (sumCards(this.state.playerCards) > 21 ) {
-    //       alert("You Busted")
-    //       this.refreshState()
-    //     }
-    //   })
-    // }
-  // }
 
   handleDeal() {
     this.setState( dealPlayerCard)
     this.setState( dealDealerCard)
     this.setState( dealPlayerCard)
     this.setState( dealDealerCard)
-    this.setState( calculateTotals)
-
-  }
-  // handleDeal() {
-  //   let deck = shuffleArray(initialState.deck)
-  //   let playerCards = []
-  //   let dealerCards = []
-  //   playerCards.push(deck[0])
-  //   playerCards.push(deck[2])
-  //   dealerCards.push(deck[1])
-  //   dealerCards.push(deck[3])
-  //   this.setState({
-  //     deck: deck.slice(4),
-  //     dealerCards: dealerCards,
-  //     playerCards: playerCards,
-  //   }, function() {
-  //     this.calculateTotals()
-  //   })
-  // }
-
-  dealDealerCards() {
-    let dealerCards = this.state.dealerCards
-
-    dealerCards.push(this.state.deck[0])
-    this.setState({
-      deck: this.state.deck.slice(1),
-      dealerCards: dealerCards
-    }, function() {
-      if (sumCards(this.state.dealerCards) < 17) {
-        this.dealDealerCards()
-      }
+    this.setState( calculateTotals, function() {
+      testForBlackJack(this.state)
     })
   }
 
   handleStay() {
-    if (sumCards(this.state.dealerCards) < 17) {
-      this.dealDealerCards()
-    }
-    this.endGameSequence()
-  }
-
-  endGameSequence() {
-    if (sumCards(this.state.dealerCards) > 21) {
-      alert("Dealer Busted")
-    } else if (sumCards(this.state.dealerCards) > sumCards(this.state.playerCards)) {
-      alert("Dealer Wins")
-    } else {
-      alert("You Win!")
-    }
+    this.setState( calculateTotals, function() {
+      if (this.state.dealerTotal < 17) {
+        this.setState( dealDealerCard)
+        this.handleStay()
+      } else {
+        this.endGameSequence()
+      }
+    })
   }
 
   render() {
-    const deck = this.state.deck.map(card =>
-       JSON.stringify(card)
-    )
-
-    // const dealerCards = this.state.dealerCards.map(card =>
-    //   JSON.stringify(card)
-    // )
 
     return(
       <div>
-        <h1>{this.state.playerTotal}</h1>
+
         <h1 className="title">BlackJack!!</h1>
         <div className="dealer">
           <h2>Dealer's Cards</h2>

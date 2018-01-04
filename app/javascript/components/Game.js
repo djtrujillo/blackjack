@@ -4,6 +4,7 @@ import DealerCards from './DealerCards'
 import HitButton from './HitButton'
 import DealButton from './DealButton'
 import StayButton from './StayButton'
+import DiscardPile from './DiscardPile'
 import aceclubs from '../images/aceclubs'
 import twoclubs from '../images/c02'
 import threeclubs from '../images/c03'
@@ -116,6 +117,7 @@ const initialState =
   ],
   playerCards: [],
   dealerCards: [],
+  discardPile: []
 }
 
 function shuffleArray(array) {
@@ -215,8 +217,9 @@ export default class Game extends React.Component {
     } else {
       alert(`You Win! : ${this.state.playerTotal} to ${this.state.dealerTotal}`)
     }
+    let discards = this.state.playerCards.concat(this.state.dealerCards)
     this.setState({
-      discardPile: this.state.playerCards.concat(this.state.dealerCards),
+      discardPile: this.state.discardPile.concat(discards),
       playerCards: [],
       dealerCards: []
     })
@@ -261,23 +264,27 @@ export default class Game extends React.Component {
   }
 
   render() {
-
+    console.log(this.state.discardPile)
     return(
-      <div>
-
-        <h1 className="title">BlackJack!!</h1>
-        <div className="dealer">
-          <h2>Dealer's Cards</h2>
-          <DealerCards cards={this.state.dealerCards} />
-          <h3>DealerTotal: {this.state.dealerTotal}</h3>
+      <div className="game">
+        <div className="discard">
+          <h4>Discard Pile</h4>
+          <DiscardPile cards={this.state.discardPile} />
         </div>
-        <div className="player" >
-          <h2>Player's Cards</h2>
-          <PlayerCards cards={this.state.playerCards} />
-          <h3>PlayerTotal: {this.state.playerTotal}</h3>
-          <HitButton onClick={this.handleHit} />
-          <StayButton onClick={this.handleStay} />
-          <DealButton onClick={this.handleDeal} />
+        <div className="hands" >
+          <div className="dealer">
+            <h2>Dealer's Cards</h2>
+            <DealerCards cards={this.state.dealerCards} />
+            <h3>DealerTotal: {this.state.dealerTotal}</h3>
+          </div>
+          <div className="player" >
+            <h2>Player's Cards</h2>
+            <PlayerCards cards={this.state.playerCards} />
+            <h3>PlayerTotal: {this.state.playerTotal}</h3>
+            <HitButton onClick={this.handleHit} />
+            <StayButton onClick={this.handleStay} />
+            <DealButton onClick={this.handleDeal} />
+          </div>
         </div>
       </div>
     )

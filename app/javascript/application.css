@@ -3,7 +3,7 @@ body {
   /*background-color: lightblue;*/
 }
 
-h1 {
+/*h1 {
   display: flex;
   justify-content: center;
   color: yellow;
@@ -19,9 +19,9 @@ h3 {
   color: red;
   display: flex;
   justify-content: center;
-}
+}*/
 
-.deal-button  {
+/*.deal-button  {
   display: flex;
   justify-content: center;
 }
@@ -32,16 +32,41 @@ h3 {
 .hit-button  {
   display: flex;
   justify-content: center;
-}
+}*/
 
 .player-cards {
-  justify-content: center;
+  justify-content: flex-start;
   display: flex;
   flex-direction: row;
 }
 
 .dealer-cards {
-  justify-content: center;
+  justify-content: flex-start;
   display: flex;
   flex-direction: row;
+}
+
+.discard-pile {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.discard {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+
+.game {
+  display: flex;
+}
+
+.discard {
+  flex: 1;
+}
+
+.hands {
+  flex: 1;
 }

@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag    'home', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+<h1 class="title">Welcome to BlackJack!</h1>
+
+<section class="login">
+
+  <%= form_for(:session, url: login_path) do |f| %>
+
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+
+  <%= f.label :password %>
+  <%= f.text_field :password %>
+
+  <%= f.submit "Login" %>
+
+  <% end %>
+
+  <%= link_to "Create Account", new_user_path  %><br>
+  <%= link_to image_tag("google.png"), "/auth/google_oauth2", id: "sign_in" %>
+</section>

@@ -57,6 +57,7 @@ import tenspades from '../images/s10'
 import jackspades from '../images/s11'
 import queenspades from '../images/s12'
 import kingspades from '../images/s13'
+import back from '../images/back'
 
 
 const initialState =
@@ -117,7 +118,9 @@ const initialState =
   ],
   playerCards: [],
   dealerCards: [],
-  discardPile: []
+  dealerTotal: 0,
+  playerTotal: 0,
+  handOver: false
 }
 
 function shuffleArray(array) {
@@ -154,7 +157,6 @@ function numberAces(hand) {
   return array.length
 }
 
-
 function dealPlayerCard(state, props) {
   return {
     playerCards: state.playerCards.concat(state.deck[0]),
@@ -176,24 +178,26 @@ function calculateTotals(state, props) {
   }
 }
 
-function endGameSequence(state) {
-  if (state.playerTotal > 21) {
-    alert("Dealer Wins : You Busted")
-  } else if (state.dealerTotal > 21) {
-    alert("You Win! : Dealer Busted")
-  } else if (state.dealerTotal > state.playerTotal) {
-    alert(`Dealer Wins: ${state.dealerTotal} to ${state.playerTotal}`)
+function testForBlackJack(state) {
+  if (state.playerTotal === 21) {
+    setTimeout(function() {alert("BlackJack!!")}, 300)
+    return true
+  } else if (state.dealerTotal === 21) {
+    setTimeout(function() {alert("Dealer BlackJack")}, 300)
+    return true
   } else {
-    alert(`You Win! : ${state.playerTotal} to ${state.dealerTotal}`)
+    return false
   }
 }
 
-function testForBlackJack(state) {
-  if (state.playerTotal === 21) {
-    alert("BlackJack!!")
-  } else if (state.dealerTotal === 21) {
-    alert("Dealer BlackJack")
-  } else {
+function refreshState(state) {
+  return{
+    deck: shuffleArray(initialState.deck),
+    playerCards: [],
+    dealerCards: [],
+    playerTotal: 0,
+    dealerTotal: 0,
+    handOver: false
   }
 }
 
@@ -208,29 +212,18 @@ export default class Game extends React.Component {
   }
 
   endGameSequence() {
+    this.setState({
+      handOver: true
+    })
     if (this.state.playerTotal > 21) {
-      alert("Dealer Wins : You Busted")
+      setTimeout(function(){alert("Dealer Wins : You Busted"); }, 300);
     } else if (this.state.dealerTotal > 21) {
-      alert("You Win! : Dealer Busted")
+      setTimeout(function(){alert("You Win! : Dealer Busted"); }, 300);
     } else if (this.state.dealerTotal > this.state.playerTotal) {
-      alert(`Dealer Wins: ${this.state.dealerTotal} to ${this.state.playerTotal}`)
+      setTimeout(function(){ alert(`Dealer Wins: ${this.state.dealerTotal} to ${this.state.playerTotal}`); }.bind(this), 300);
     } else {
-      alert(`You Win! : ${this.state.playerTotal} to ${this.state.dealerTotal}`)
+      setTimeout(function(){alert(`You Win! : ${this.state.playerTotal} to ${this.state.dealerTotal}`); }.bind(this), 300);
     }
-    let discards = this.state.playerCards.concat(this.state.dealerCards)
-    this.setState({
-      discardPile: this.state.discardPile.concat(discards),
-      playerCards: [],
-      dealerCards: []
-    })
-  }
-
-  refreshState() {
-    this.setState({
-      deck: initialState.deck,
-      playerCards: [],
-      dealerCards: []
-    })
   }
 
   handleHit() {
@@ -243,12 +236,15 @@ export default class Game extends React.Component {
   }
 
   handleDeal() {
+    this.setState( refreshState)
     this.setState( dealPlayerCard)
     this.setState( dealDealerCard)
     this.setState( dealPlayerCard)
     this.setState( dealDealerCard)
     this.setState( calculateTotals, function() {
-      testForBlackJack(this.state)
+      if (testForBlackJack(this.state)) {
+        this.setState({handOver: true})
+      }
     })
   }
 
@@ -264,17 +260,12 @@ export default class Game extends React.Component {
   }
 
   render() {
-    console.log(this.state.discardPile)
     return(
       <div className="game">
-        <div className="discard">
-          <h4>Discard Pile</h4>
-          <DiscardPile cards={this.state.discardPile} />
-        </div>
         <div className="hands" >
           <div className="dealer">
             <h2>Dealer's Cards</h2>
-            <DealerCards cards={this.state.dealerCards} />
+            <DealerCards cards={this.state.dealerCards} downCard={this.state.dealerCards[0]} handOver={this.state.handOver} />
             <h3>DealerTotal: {this.state.dealerTotal}</h3>
           </div>
           <div className="player" >

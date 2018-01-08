@@ -329,6 +329,7 @@ export default class Game extends React.Component {
   }
 
   handleBetIncrease() {
+    
     this.setState({
       betAmount: this.state.betAmount + 5
     })

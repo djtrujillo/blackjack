@@ -1,21 +1,45 @@
-<%= stylesheet_link_tag    'home', media: 'all', 'data-turbolinks-track': 'reload' %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= stylesheet_link_tag    'home', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+  </body>
+</html>
+
+
+
+
+
+
 
 <h1 class="title">Welcome to BlackJack!</h1>
 
 <section class="login">
-
+  <h2>Login</h2>
   <%= form_for(:session, url: login_path) do |f| %>
+  <div class="email">
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+  </div>
+  <div class="password">
+    <%= f.label :password %>
+    <%= f.text_field :password %>
+  </div>
 
-  <%= f.label :email %>
-  <%= f.text_field :email %>
+    <%= f.submit "Login" %>
 
-  <%= f.label :password %>
-  <%= f.text_field :password %>
-
-  <%= f.submit "Login" %>
 
   <% end %>
-
+<div class="link1">
   <%= link_to "Create Account", new_user_path  %><br>
+</div>
+<div class="link2">
   <%= link_to image_tag("google.png"), "/auth/google_oauth2", id: "sign_in" %>
+</div>
+
+
 </section>

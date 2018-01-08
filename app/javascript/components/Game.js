@@ -329,15 +329,16 @@ export default class Game extends React.Component {
   }
 
   handleBetIncrease() {
-    
-    this.setState({
-      betAmount: this.state.betAmount + 5
-    })
+    if (this.state.chips > this.state.betAmount) {
+      this.setState({
+        betAmount: this.state.betAmount + 5
+      })
+    }
   }
 
   handleBetDecrease() {
     this.setState({
-      betAmount: this.state.betAmount - 5
+      betAmount: this.state.betAmount - 5,
     })
   }
 
@@ -354,16 +355,25 @@ export default class Game extends React.Component {
           <h2>Dealer's Cards</h2>
           <DealerCards cards={this.state.dealerCards} downCard={this.state.dealerCards[0]} handOver={this.state.handOver} />
           <h2>Player's Cards</h2>
+          <div className="bottom">
           <PlayerCards cards={this.state.playerCards} />
           <h3>PlayerTotal: {this.state.playerTotal}</h3>
-          <HitButton onClick={this.handleHit} />
-          <StayButton onClick={this.handleStay} />
-          <DealButton onClick={this.handleDeal} />
-          <h3>Bet Amount: {this.state.betAmount}</h3>
+
+
+          <div className='moves'>
+            <HitButton onClick={this.handleHit} />
+            <DealButton onClick={this.handleDeal} />
+            <StayButton onClick={this.handleStay} />
+          </div>
           <h3>Chip Total: {this.state.chips}</h3>
-          <BetIncrease onClick={this.handleBetIncrease} />
-          <BetDecrease onClick={this.handleBetDecrease} />
+          <div className="betting">
+            <BetDecrease onClick={this.handleBetDecrease} />
+            <h4>Bet Amount: {this.state.betAmount}</h4>
+            <BetIncrease onClick={this.handleBetIncrease} />
+          </div>
+
           <ChipRefill onClick={this.handleChipRefill} />
+        </div>
         </div>
         <div className='column'></div>
       </div>

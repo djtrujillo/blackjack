@@ -10,7 +10,7 @@ export default class BetDecrease extends React.Component {
   render() {
     return(
       <div className="bet-decrease">
-        <button onClick={this.props.onClick}>Bet Decrease</button>
+        <button className="bet-button" onClick={this.props.onClick}>Bet Decrease</button>
       </div>
     )
   }

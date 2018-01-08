@@ -9,10 +9,30 @@ html {
   background-size: cover;
 }
 
+.email {
+  padding: 15px;
+  font-size: 20px;
+}
+
+.password {
+  padding: 15px;
+  font-size: 20px;
+}
+
+.link1{
+  padding: 15px;
+}
+.link2{
+  padding: 15px;
+}
+
+
+
 .login {
-  height:110px;
-  width:190px;
-  margin:auto;
+  background-color: white;
+  height:300px;
+  width:300px;
+  // margin:auto;
   border:1px #CCC solid;
   padding:10px;
 }

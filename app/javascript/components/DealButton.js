@@ -10,7 +10,7 @@ export default class DealButton extends React.Component {
   render() {
     return(
       <div className="deal-button">
-        <button onClick={this.props.onClick}>Deal</button>
+        <button className="db" onClick={this.props.onClick}>New Deal</button>
       </div>
     )
   }

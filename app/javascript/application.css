@@ -1,5 +1,6 @@
 html {
-  background: url("./images/tableBackground.png") no-repeat center center fixed;
+  /*background: url("./images/tableBackground.png") no-repeat center center fixed;*/
+  background-image: image-url("./images/tableBackground.png");
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -73,10 +74,17 @@ h4 {
   margin: 20px;
 }
 
+.bets {
+  border-style: groove;
+  border-width: 2px;
+  border-color: green;
+}
+
 .betting {
- display: flex;
- justify-content: center;
- flex-direction: row;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
 
 }
 

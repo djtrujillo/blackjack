@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <%= stylesheet_link_tag    'home', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
 
-  </body>
-</html>
+    <%= stylesheet_link_tag    'home', media: 'all', 'data-turbolinks-track': 'reload' %>
+
 
 
 
@@ -19,7 +11,7 @@
 <h1 class="title">Welcome to BlackJack!</h1>
 
 <section class="login">
-  <h2>Login</h2>
+  <h2 >Login</h2>
   <%= form_for(:session, url: login_path) do |f| %>
   <div class="email">
     <%= f.label :email %>

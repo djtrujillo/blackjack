@@ -304,6 +304,7 @@ export default class Game extends React.Component {
     this.setState( dealDealerCard)
     this.setState( calculateTotals, function() {
       if (testForBlackJack(this.state)) {
+
         this.setState({handOver: true})
       }
     })
@@ -365,23 +366,20 @@ export default class Game extends React.Component {
             <DealButton onClick={this.handleDeal} />
             <StayButton onClick={this.handleStay} />
           </div>
-          <h3>Chip Total: {this.state.chips}</h3>
-          <div className="betting">
-            <BetDecrease onClick={this.handleBetDecrease} />
-            <h4>Bet Amount: {this.state.betAmount}</h4>
-            <BetIncrease onClick={this.handleBetIncrease} />
-          </div>
+          <div className="bets">
+            <h3>Chip Total: {this.state.chips}</h3>
+            <div className="betting">
+              <BetDecrease onClick={this.handleBetDecrease} />
+              <h3>Bet Amount: {this.state.betAmount}</h3>
+              <BetIncrease onClick={this.handleBetIncrease} />
+            </div>
 
-          <ChipRefill onClick={this.handleChipRefill} />
+            <ChipRefill onClick={this.handleChipRefill} />
+          </div>
         </div>
         </div>
         <div className='column'></div>
       </div>
-
-
-
-
-
     )
   }
 }

@@ -73,10 +73,17 @@ h4 {
   margin: 20px;
 }
 
+.bets {
+  border-style: groove;
+  border-width: 2px;
+  border-color: green;
+}
+
 .betting {
- display: flex;
- justify-content: center;
- flex-direction: row;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
 
 }
 

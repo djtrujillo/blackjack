@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
     if params[:provider].present?
       user = User.from_omniauth(request.env["omniauth.auth"])
       session[:user_id] = user.id
-      redirect_to root_path
+      redirect_to games_path
     else
       @user = User.find_by(email: params[:session][:email])
       verify_user
@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
 
     def login_successful
       session[:user_id] = @user.id
-      redirect_to root_path
+      redirect_to games_path
     end
 
 end

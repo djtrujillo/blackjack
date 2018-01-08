@@ -12,5 +12,9 @@ Rails.application.routes.draw do
 
   root to: "home#show"
 
+  namespace :api, defaults: { format: :json } do
+    resources :users, only: [ :update, :show ]
+  end
+
   get '/games', to: 'games#index'
 end

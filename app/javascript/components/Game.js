@@ -1,8 +1,12 @@
 import React from 'react'
+import BetIncrease from './BetIncrease'
+import Chips from './Chips'
+import BetDecrease from './BetDecrease'
 import PlayerCards from './PlayerCards'
 import DealerCards from './DealerCards'
 import HitButton from './HitButton'
 import DealButton from './DealButton'
+import ChipRefill from './ChipRefill'
 import StayButton from './StayButton'
 import DiscardPile from './DiscardPile'
 import aceclubs from '../images/aceclubs'
@@ -58,6 +62,7 @@ import jackspades from '../images/s11'
 import queenspades from '../images/s12'
 import kingspades from '../images/s13'
 import back from '../images/back'
+import axios from 'axios'
 
 
 const initialState =
@@ -120,6 +125,7 @@ const initialState =
   dealerCards: [],
   dealerTotal: 0,
   playerTotal: 0,
+  betAmount: 0,
   handOver: false
 }
 
@@ -201,6 +207,18 @@ function refreshState(state) {
   }
 }
 
+function determineWinner(state) {
+  if (state.playerTotal > 21) {
+    return "dealer"
+  } else if (state.dealerTotal > 21) {
+    return "player"
+  } else if (state.dealerTotal > state.playerTotal) {
+    return "dealer"
+  } else {
+    return "player"
+  }
+}
+
 export default class Game extends React.Component {
   constructor(props) {
     super(props)
@@ -208,13 +226,56 @@ export default class Game extends React.Component {
     this.handleHit = this.handleHit.bind(this)
     this.handleDeal = this.handleDeal.bind(this)
     this.handleStay = this.handleStay.bind(this)
+    this.handleChipRefill = this.handleChipRefill.bind(this)
+    this.handleBetIncrease = this.handleBetIncrease.bind(this)
+    this.handleBetDecrease = this.handleBetDecrease.bind(this)
+
     this.state.deck = shuffleArray(this.state.deck)
   }
 
-  endGameSequence() {
-    this.setState({
-      handOver: true
+  fetchChips(id) {
+    axios.get(`api/users/${id}`)
+      .then(response => {
+        this.setState({ chips: response.data.chips })
+      })
+      .catch(error => {
+        console.log(error(error))
+      })
+  }
+
+  updateChips(chips) {
+    axios({
+      method: 'patch',
+      url: `api/users/${this.props.user.id}`,
+      data: {
+        chips: this.state.chips + chips
+      }
     })
+    .then(response => {
+      this.fetchChips(this.props.user.id)
+    })
+    .catch(error => {
+      console.log(error(error))
+    })
+  }
+
+
+  componentDidMount() {
+    this.fetchChips(this.props.user.id)
+  }
+
+  endGameSequence() {
+    const winner = determineWinner(this.state)
+    this.setState({
+      handOver: true,
+      betAmount: 0
+    })
+    if (winner === "player") {
+      this.updateChips(this.state.betAmount)
+    } else {
+      this.updateChips(this.state.betAmount * -1)
+    }
+
     if (this.state.playerTotal > 21) {
       setTimeout(function(){alert("Dealer Wins : You Busted"); }, 300);
     } else if (this.state.dealerTotal > 21) {
@@ -259,25 +320,57 @@ export default class Game extends React.Component {
     })
   }
 
+  handleChipRefill() {
+    this.setState({
+      chips: 0
+    }, function(){
+      this.updateChips(100)
+    })
+  }
+
+  handleBetIncrease() {
+    this.setState({
+      betAmount: this.state.betAmount + 5
+    })
+  }
+
+  handleBetDecrease() {
+    this.setState({
+      betAmount: this.state.betAmount - 5
+    })
+  }
+
   render() {
     return(
-      <div className="game">
-        <div className="hands" >
-          <div className="dealer">
-            <h2>Dealer's Cards</h2>
-            <DealerCards cards={this.state.dealerCards} downCard={this.state.dealerCards[0]} handOver={this.state.handOver} />
-            <h3>DealerTotal: {this.state.dealerTotal}</h3>
-          </div>
-          <div className="player" >
-            <h2>Player's Cards</h2>
-            <PlayerCards cards={this.state.playerCards} />
-            <h3>PlayerTotal: {this.state.playerTotal}</h3>
-            <HitButton onClick={this.handleHit} />
-            <StayButton onClick={this.handleStay} />
-            <DealButton onClick={this.handleDeal} />
+      <div className='row'>
+        <div className='column'>
+          <div>.
+            <Chips betAmount={this.state.betAmount} />
           </div>
         </div>
+        <div className='column'>
+          <h1>BlackJack</h1>
+          <h2>Dealer's Cards</h2>
+          <DealerCards cards={this.state.dealerCards} downCard={this.state.dealerCards[0]} handOver={this.state.handOver} />
+          <h2>Player's Cards</h2>
+          <PlayerCards cards={this.state.playerCards} />
+          <h3>PlayerTotal: {this.state.playerTotal}</h3>
+          <HitButton onClick={this.handleHit} />
+          <StayButton onClick={this.handleStay} />
+          <DealButton onClick={this.handleDeal} />
+          <h3>Bet Amount: {this.state.betAmount}</h3>
+          <h3>Chip Total: {this.state.chips}</h3>
+          <BetIncrease onClick={this.handleBetIncrease} />
+          <BetDecrease onClick={this.handleBetDecrease} />
+          <ChipRefill onClick={this.handleChipRefill} />
+        </div>
+        <div className='column'></div>
       </div>
+
+
+
+
+
     )
   }
 }

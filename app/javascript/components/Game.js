@@ -196,6 +196,14 @@ function testForBlackJack(state) {
   }
 }
 
+function testForPlayerBlackJack(state) {
+  if(state.playerTotal === 21) {
+    return true
+  } else {
+    return false
+  }
+}
+
 function refreshState(state) {
   return{
     deck: shuffleArray(initialState.deck),
@@ -304,8 +312,20 @@ export default class Game extends React.Component {
     this.setState( dealDealerCard)
     this.setState( calculateTotals, function() {
       if (testForBlackJack(this.state)) {
-
         this.setState({handOver: true})
+        if (testForPlayerBlackJack(this.state)) {
+          this.updateChips(this.state.betAmount)
+          this.setState({
+            handOver: true,
+            betAmount: 0
+          })
+        } else {
+          this.updateChips(this.state.betAmount * -1)
+          this.setState({
+            handOver: true,
+            betAmount: 0
+          })
+        }
       }
     })
   }

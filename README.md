@@ -24,6 +24,7 @@ Clone this repo
 
 Install Packages:
 ```
+git clone
 bundle install
 foreman start
 ```
